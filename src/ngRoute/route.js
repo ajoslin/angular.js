@@ -123,11 +123,12 @@ function $RouteProvider(){
    * @returns {Object} self
    *
    * @description
-   * Adds a new route definition to the `$route` service.
+   * Adds a new route definition to the `$route` service.  If a route definition with the given path
+   * already exists, it will extend the current route definition.
    */
   this.when = function(path, route) {
     routes[path] = extend(
-      {reloadOnSearch: true},
+      routes[path] || {reloadOnSearch: true},
       route,
       path && pathRegExp(path, route)
     );

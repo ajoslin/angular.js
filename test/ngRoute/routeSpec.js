@@ -207,6 +207,28 @@ describe('$route', function() {
     });
   });
 
+  describe('should extend the current path\'s route if a .when(path) is done twice', function() {
+    function BananaCtrl($scope) {
+      $scope.banana = 'yum';
+    }
+    beforeEach(module(function($routeProvider) {
+      $routeProvider.when('/banana', {
+        templateUrl: 'test.html'
+      });
+      $routeProvider.when('/banana', {
+        controller: BananaCtrl
+      });
+    }));
+
+    it('should have a templateUrl and controller', inject(function($route, $location, $rootScope) {
+      $location.path('/banana');
+      $rootScope.$digest();
+
+      expect($route.current).toBeDefined();
+      expect($route.current.templateUrl).toBe('test.html');
+      expect($route.current.controller).toBe(BananaCtrl);
+    }));
+  });
 
   describe('should match a route that contains special chars in the path', function() {
     beforeEach(module(function($routeProvider) {
