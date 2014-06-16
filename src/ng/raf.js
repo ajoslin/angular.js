@@ -11,7 +11,7 @@ function $$RAFProvider(){ //rAF
                                $window.mozCancelAnimationFrame ||
                                $window.webkitCancelRequestAnimationFrame;
 
-    var rafSupported = !!requestAnimationFrame;
+    var rafSupported = !!(requestAnimationFrame && cancelAnimationFrame);
     var raf = rafSupported
       ? function(fn) {
           var id = requestAnimationFrame(fn);
